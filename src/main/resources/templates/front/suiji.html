@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS实现随机选择</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .wrapper {
+            width: 800px;
+            margin: 100px auto;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .box li {
+            vertical-align: top;
+            display: inline-block;
+            width: 200px;
+            height: 50px;
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            text-align: center;
+            line-height: 50px;
+            margin: 5px;
+        }
+        .box li.change {
+            background-color: red;
+            color:#fff;
+            font-weight:bolder;
+        }
+        .wrapper button {
+            display: inline-block;
+        }
+        .wrapper button {
+            border: none;
+            width: 300px;
+            height: 50px;
+            border-radius: 10px;
+            cursor: pointer;
+            outline: none;
+            margin-top: 20px;
+            font-weight: bolder;
+            color: #333;
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrapper">
+    <ul class="box"></ul>
+    <button class="start">begin·</button>
+    <button class="stop">stop·</button>
+    <div>
+        <span>宝贝你的选择是:</span>
+        <span class="name"></span>
+    </div>
+</div>
+
+<script>
+    // 原生js取出元素
+    var boxUl = document.getElementsByClassName('box')[0];
+    var start = document.getElementsByClassName('start')[0];
+    var stop = document.getElementsByClassName('stop')[0]
+    var oLi = document.getElementsByTagName('li');
+    // 将插入名字存入数组
+    var arr = ["yesCONVERSE", "notCONVERSE  ", "yesCONVERSE","notCONVERSE",
+        "yesCONVERSE",  "notCONVERSE  ","yesCONVERSE", "notCONVERSE","yesCONVERSE",  "notCONVERSE",
+        "yesCONVERSE", "notCONVERSE  ", "yesCONVERSE", "notCONVERSE", "yesCONVERSE",
+        "notCONVERSE",  "yesCONVERSE", "notCONVERSE", "yesCONVERSE", "notCONVERSE"]
+    // html进行 字符串拼接
+    var str = '';
+    // 通过for循环进行拼接
+    for (var i = 0; i < arr.length; i++) {
+        // 利用字符串拼接
+        str += "<li>" + arr[i] + "</li>";
+    }
+    // 将拼接后的html字符串插入到dom结构中
+    boxUl.innerHTML = str;
+    // 声明timer
+    var timer = null;
+    // 点击开始进行选择
+    start.onclick = function () {
+        // 每次运行前清除timer
+        clearInterval(timer);
+        // 设置定时器
+        timer = setInterval(function () {
+            // 根据数组长度范围生成随机数
+            var i = Math.floor(Math.random() * arr.length);
+            // 先通过for循环清空所有class名
+            for (var j = 0; j < oLi.length; j++) {
+                oLi[j].className = "";
+            }
+            // 为随机选择的li设置选中的class名
+            oLi[i].className = "change";
+        }, 10);
+    };
+    // 点击停止
+    stop.onclick = function () {
+        // 清空定时器
+        clearInterval(timer);
+        // 找到选中的元素
+        var choise = document.getElementsByClassName('change')[0];
+        // 找到选中元素的内容
+        var name = choise.innerText;
+        // 同时为选中位置添加内容
+        var nameSpan = document.getElementsByClassName('name')[0];
+        nameSpan.innerText = name;
+    }
+
+</script>
+</body>
+
+</html>
